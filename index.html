@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD - Simple Online Store</title>
+    <link rel="stylesheet" href="./styles/global-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="/js/app.js" defer type="module"></script>
+    <script src="/js/functions-page/controles-modal.js" defer type="module"></script> 
+</head>
+<body>
+    <header class="top-menu">
+        <div class="top-menu--container">
+            <a href="/" class="top-menu--logo">
+                <figure class="top-menu--symbol-container">
+                    <img src="./assets/images/nordora-menu-icon.svg" alt="">
+                </figure>
+                Nordora
+            </a>
+            <a href="/pages/gestion-stock.html" class="btn-primary icon-txt-btn"> 
+                <span class="material-symbols-outlined">
+                settings
+                </span> Gestionar stock
+            </a>
+        </div>
+    </header>
+    <section class="main-content">
+        <div class="main-content-wrapper">
+            <section id="productList" class="product-list">
+                <!-- <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/sofa-moderno.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Sofá Moderno</h3>
+                        <p class="product-card--description">Dimensiones: 220 x 85 x 80 cm</p>
+                        <p class="product-card--price">599,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/mesa-centro.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Mesa de comedor</h3>
+                        <p class="product-card--description">Dimensiones: 160 x 90 x 75 cm</p>
+                        <p class="product-card--price">349,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/silla-exterior.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Silla nórdica</h3>
+                        <p class="product-card--description">Dimensiones: 45 x 50 x 85 cm</p>
+                        <p class="product-card--price">89,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/estanteria-flotante.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Estantería flotante</h3>
+                        <p class="product-card--description">Dimensiones: 120 x 30 x 4 cm</p>
+                        <p class="product-card--price">79,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/lampara-pie.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Lámpara de pie</h3>
+                        <p class="product-card--description">Dimensiones: 35 x 35 x 160 cm</p>
+                        <p class="product-card--price">119,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <figure class="product-card--image">
+                        <img src="./assets/images/divan-nordico.jpg" alt="">
+                    </figure>
+                    <div class="product-card--info--container">
+                        <h3 class="product-card--name">Diván nórdico</h3>
+                        <p class="product-card--description">220 x 85 x 80 cm</p>
+                        <p class="product-card--price">789,99€</p>
+                        <button class="product-card--add-btn btn-primary"><span class="material-symbols-outlined">
+                            shopping_cart
+                            </span> Añadir al carrito</button>
+                    </div>
+                </article> -->
+            </section>
+            <section class="cart">
+                <div class="cart-list">
+                    <div class="cart-list--title">
+                        <span class="material-symbols-outlined">
+                            shopping_cart
+                        </span>
+                        <h3>Carrito de Compra</h3>
+                    </div>
+                    <div id="cartList" class="cart-list--list">
+                        <!-- <article class="cart-list--list-item">
+                            <div class="list-item--info">
+                                <div class="list-item--info--name">
+                                    Sofá Moderno
+                                </div>
+                                <div class="list-item--info--description">
+                                    Cantidad: 1
+                                </div>
+                                <div class="list-item--info--price">
+                                    599,99€
+                                </div>
+                            </div>
+                            <div class="list-item--action">
+                                <button class="btn-ghost btn-square-32px">
+                                    <span class="material-symbols-outlined">
+                                        close
+                                        </span>
+                                </button>                        
+                            </div>
+                        </article>
+                        <article class="cart-list--list-item">
+                            <div class="list-item--info">
+                                <div class="list-item--info--name">
+                                    Sofá Moderno
+                                </div>
+                                <div class="list-item--info--description">
+                                    Cantidad: 1
+                                </div>
+                                <div class="list-item--info--price">
+                                    599,99€
+                                </div>
+                            </div>
+                            <div class="list-item--action">
+                                <button class="btn-ghost btn-square-32px">
+                                    <span class="material-symbols-outlined">
+                                        close
+                                        </span>
+                                </button>                        
+                            </div>
+                        </article> -->
+                    </div>
+                    <div class="cart-list-divider"></div>
+                    <div class="cart-list--total-price">
+                        <div class="cart-list--total-price-label">Total:</div>
+                        <div class="cart-list--total-price-value" id="totalPriceValue">0€</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+
+ 
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de stock</title>
+    <link rel="stylesheet" href="../styles/global-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="../js/app.js" defer type="module"></script> 
+    <script src="../js/functions-page/controles-modal.js" defer type="module"></script> 
+</head>
+<body>
+    <header class="top-menu">
+        <div class="top-menu--container">
+            <a href="/" class="top-menu--logo">
+                <figure class="top-menu--symbol-container">
+                    <img src="../assets/images/nordora-menu-icon.svg" alt="">
+                </figure>
+                Nordora
+            </a>
+            <a href="/" class="btn-primary icon-txt-btn"> 
+                <span class="material-symbols-outlined">
+                arrow_back
+                </span> Volver a la tienda
+            </a>
+        </div>
+    </header>
+    <section class="main-content-stock">
+        <div class="main-content-stock-wrapper">
+            <section class="stock--toolbar">
+                <button class="btn-primary icon-txt-btn" id="crearProductoModal"> 
+                    <span class="material-symbols-outlined">
+                    add
+                    </span> Añadir producto
+                </button>
+            </section>
+            <section class="stock-list" id="stockList">
+                <!-- <article class="stock-product-card">
+                    <figure class="stock-product-card--image">
+                        <img src="/assets/images/sofa-moderno.jpg" alt="sofá moderno">
+                    </figure>
+                    <div class="stock-product-car--info-container">
+                        <div class="stock-product-car--data-container">
+                            <h3 class="product-card--name">Mesa de comedor</h3>
+                            <p class="product-card--description">Dimensiones: 160 x 90 x 75 cm</p>
+                            <p class="product-card--price">349.99€</p>
+                        </div>
+                        <div class="stock-product-card--buttons-container">
+                            <button class="btn-neutral" data-id="2">
+                                <span class="material-symbols-outlined">edit</span> 
+                                Editar producto
+                            </button>
+                            <button class="btn-delete" data-id="2">
+                                <span class="material-symbols-outlined">delete</span> 
+                                Eliminar producto
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="stock-product-card">
+                    <figure class="stock-product-card--image">
+                        <img src="/assets/images/sofa-moderno.jpg" alt="sofá moderno">
+                    </figure>
+                    <div class="stock-product-car--info-container">
+                        <div class="stock-product-car--data-container">
+                            <h3 class="product-card--name">Mesa de comedor</h3>
+                            <p class="product-card--description">Dimensiones: 160 x 90 x 75 cm</p>
+                            <p class="product-card--price">349.99€</p>
+                        </div>
+                        <div class="stock-product-card--buttons-container">
+                            <button class="btn-neutral" data-id="2">
+                                <span class="material-symbols-outlined">edit</span> 
+                                Editar producto
+                            </button>
+                            <button class="btn-delete" data-id="2">
+                                <span class="material-symbols-outlined">delete</span> 
+                                Eliminar producto
+                            </button>
+                        </div>
+                    </div>
+                </article> -->
+            </section>
+        </div>
+    </section>
+
+    <!-- Overlay y ventana modal -->
+    <div class="mask-overlay" id="maskOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Añadir producto al stock</h3>
+                <button class="btn-ghost btn-square-32px btn-remove" id="closeModal">
+                  <span class="material-symbols-outlined">
+                      close
+                      </span>
+              </button>
+                <!-- <button class="btn-close" id="closeModal">&times;</button> -->
+            </div>
+            <div class="modal-body">
+                <section class="container-add-item">
+                    <form id="productoForm">
+                        <div class="form-group">
+                            <label for="id-field">ID:</label>
+                            <input type="text" id="id-field" name="id" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="imagen">URL de la imagen:</label>
+                            <input type="url" id="imagen" name="imagen" placeholder="https://ejemplo.com/imagen.jpg">
+                            <img id="previewImg" class="preview-image" alt="Vista previa de la imagen">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Nombre del producto">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dimensiones">Dimensiones (en cm):</label>
+                            <input type="text" id="dimensiones" name="dimensiones" placeholder="Ej: 10 x 20 x 30 cm">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="precio">Precio (en Euros):</label>
+                            <input type="number" id="precio" name="precio" min="0" placeholder="0.00">
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-neutral" id="cancelModal">Cancelar</button>
+                <button class="btn btn-primary" id="formNuevoProductoSubmit" type="submit">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
