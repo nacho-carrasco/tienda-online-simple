@@ -28,7 +28,7 @@
             </a>
         </div>
     </header>
-    <section class="main-content-stock">
+    <main class="main-content-stock">
         <div class="main-content-stock-wrapper">
             <section class="stock--toolbar">
                 <button class="btn-primary icon-txt-btn" id="crearProductoModal"> 
@@ -38,56 +38,12 @@
                 </button>
             </section>
             <section class="stock-list" id="stockList">
-                <!-- <article class="stock-product-card">
-                    <figure class="stock-product-card--image">
-                        <img src="/assets/images/sofa-moderno.jpg" alt="sofá moderno">
-                    </figure>
-                    <div class="stock-product-car--info-container">
-                        <div class="stock-product-car--data-container">
-                            <h3 class="product-card--name">Mesa de comedor</h3>
-                            <p class="product-card--description">Dimensiones: 160 x 90 x 75 cm</p>
-                            <p class="product-card--price">349.99€</p>
-                        </div>
-                        <div class="stock-product-card--buttons-container">
-                            <button class="btn-neutral" data-id="2">
-                                <span class="material-symbols-outlined">edit</span> 
-                                Editar producto
-                            </button>
-                            <button class="btn-delete" data-id="2">
-                                <span class="material-symbols-outlined">delete</span> 
-                                Eliminar producto
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="stock-product-card">
-                    <figure class="stock-product-card--image">
-                        <img src="/assets/images/sofa-moderno.jpg" alt="sofá moderno">
-                    </figure>
-                    <div class="stock-product-car--info-container">
-                        <div class="stock-product-car--data-container">
-                            <h3 class="product-card--name">Mesa de comedor</h3>
-                            <p class="product-card--description">Dimensiones: 160 x 90 x 75 cm</p>
-                            <p class="product-card--price">349.99€</p>
-                        </div>
-                        <div class="stock-product-card--buttons-container">
-                            <button class="btn-neutral" data-id="2">
-                                <span class="material-symbols-outlined">edit</span> 
-                                Editar producto
-                            </button>
-                            <button class="btn-delete" data-id="2">
-                                <span class="material-symbols-outlined">delete</span> 
-                                Eliminar producto
-                            </button>
-                        </div>
-                    </div>
-                </article> -->
+                <!-- Los productos se generan dinámicamente aquí -->
             </section>
         </div>
-    </section>
-
-    <!-- Overlay y ventana modal -->
+    </main>
+    
+    <!-- Overlay y ventana modal Crear y Modificar -->
     <div class="mask-overlay" id="maskOverlay">
         <div class="modal">
             <div class="modal-header">
@@ -97,7 +53,6 @@
                       close
                       </span>
               </button>
-                <!-- <button class="btn-close" id="closeModal">&times;</button> -->
             </div>
             <div class="modal-body">
                 <section class="container-add-item">
@@ -136,6 +91,28 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- Overlay y ventana modal Eliminar -->
+    <div class="mask-overlay" id="maskOverlayDelete">
+        <div class="modal-delete">
+            <div class="modal-header">
+                <h3 class="modal-title">Eliminar producto del stock</h3>
+                <button class="btn-ghost btn-square-32px btn-remove" id="closeModalDelete">
+                  <span class="material-symbols-outlined">
+                      close
+                      </span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <section class="container-add-item">
+                    <p class="modal-message"><!-- El mensaje se genera dinámicamente aquí --></p>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-neutral" id="cancelModalDelete">Cancelar</button>
+                <button class="btn btn-delete-solid" id="btnDeleteConfirm" type="submit">Eliminar</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

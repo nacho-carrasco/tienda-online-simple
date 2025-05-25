@@ -3,23 +3,37 @@
 ***********************/
 // functions-page/controles-modal.js
 import { MUEBLES_KEY } from "../BBDD/BBDD.js";
-import { muebles, cargarMueblesStock, mostrarMuebles } from "../app.js";
+import { muebles, cargarMueblesStock, mostrarMuebles } from "../app.js"
 
 // Declaración de variables para elementos DOM
 export let openModalBtn;
 export let overlay;
+export let overlayDelete; // Nueva variable para la modal de eliminación
 export let closeModalBtn;
 export let cancelModalBtn;
 export let formulario;
 
+// Variables específicas para la modal de eliminación
+let closeModalDeleteBtn;
+let cancelModalDeleteBtn;
+let confirmDeleteBtn;
+let currentProductToDelete = null; // Variable para almacenar el ID del producto a eliminar
+
 // Función para inicializar todos los elementos DOM y eventos
 export function inicializarControles() {
   // Inicializar referencias a elementos DOM
-  openModalBtn = document.getElementById('crearProductoModal');
-  overlay = document.getElementById('maskOverlay');
-  closeModalBtn = document.getElementById('closeModal');
-  cancelModalBtn = document.getElementById('cancelModal');
-  formulario = document.getElementById('productoForm');
+  openModalBtn = document.getElementById('crearProductoModal')
+  overlay = document.getElementById('maskOverlay')
+  overlayDelete = document.getElementById('maskOverlayDelete') // Corregir el typo
+  closeModalBtn = document.getElementById('closeModal')
+  cancelModalBtn = document.getElementById('cancelModal')
+  formulario = document.getElementById('productoForm')
+
+  // Referencias específicas para la modal de eliminación
+  // Usar los IDs correctos para los botones de la modal de eliminación
+  closeModalDeleteBtn = document.getElementById('closeModalDelete')
+  cancelModalDeleteBtn = document.getElementById('cancelModalDelete')
+  confirmDeleteBtn = document.getElementById('btnDeleteConfirm')
 
   // Verificar si los elementos existen antes de agregar event listeners
   if (openModalBtn) {
@@ -29,14 +43,13 @@ export function inicializarControles() {
     });
   }
 
+  // Event listeners para la modal principal (crear/editar productos)
   if (closeModalBtn) {
     closeModalBtn.addEventListener('click', closeModal);
   }
-
   if (cancelModalBtn) {
     cancelModalBtn.addEventListener('click', closeModal);
   }
-
   if (overlay) {
     // Cerrar el modal al hacer clic en el overlay (fuera de la modal)
     overlay.addEventListener('click', function(e) {
@@ -46,10 +59,36 @@ export function inicializarControles() {
     });
   }
 
-  // Cerrar la modal con la tecla ESC
+  // Event listeners para la modal de eliminación
+  if (closeModalDeleteBtn) {
+    closeModalDeleteBtn.addEventListener('click', closeDeleteModal);
+  }
+  if (cancelModalDeleteBtn) {
+    cancelModalDeleteBtn.addEventListener('click', closeDeleteModal);
+  }
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener('click', confirmDelete);
+  }
+  if (overlayDelete) {
+    // Cerrar la modal de eliminación al hacer clic en el overlay
+    overlayDelete.addEventListener('click', function(e) {
+      if (e.target === overlayDelete) {
+        closeDeleteModal();
+      }
+    });
+  }
+
+  // Cerrar las modales con la tecla ESC
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
-      closeModal();
+    if (e.key === 'Escape') {
+      // Cerrar modal principal si está activa
+      if (overlay && overlay.classList.contains('active')) {
+        closeModal();
+      }
+      // Cerrar modal de eliminación si está activa
+      if (overlayDelete && overlayDelete.classList.contains('active')) {
+        closeDeleteModal();
+      }
     }
   });
 
@@ -151,8 +190,78 @@ export function mostrarMueblesInventario() {
   editarProductosStock();
 } //Fin mostrar lista de productos
 
-/**** ELIMINAR PRODUCTOS DEL INVENTARIO / STOCK - */
-//1. Función para manejar los eventos de los botones "Eliminar Producto"
+/**** FUNCIONES PARA LA MODAL DE ELIMINACIÓN ****/
+
+// Función para abrir la modal de confirmación de eliminación
+export function openDeleteModal(productId, productName) {
+  // Guardamos el ID del producto que queremos eliminar
+  currentProductToDelete = productId;
+  
+  // Actualizamos el mensaje de confirmación con el nombre del producto
+  const messageElement = overlayDelete.querySelector('.modal-message');
+  if (messageElement) {
+    messageElement.innerHTML = `¿Estás seguro de que quieres eliminar el producto <strong>"${productName}"</strong> del stock?`;
+  }
+  
+  // Mostramos la modal
+  if (overlayDelete) {
+    overlayDelete.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Evitar scroll en el fondo
+  }
+  
+  console.log(`Modal de eliminación abierta para producto ID: ${productId}, Nombre: ${productName}`);
+}
+
+// Función para cerrar la modal de eliminación
+export function closeDeleteModal() {
+  if (overlayDelete) {
+    overlayDelete.classList.remove('active');
+    document.body.style.overflow = 'auto'; // Restaurar scroll
+  }
+  
+  // Limpiar la variable temporal
+  currentProductToDelete = null;
+  
+  console.log('Modal de eliminación cerrada');
+}
+
+// Función para confirmar y ejecutar la eliminación
+export function confirmDelete() {
+  // Verificar que tenemos un producto para eliminar
+  if (currentProductToDelete === null) {
+    console.error('No hay producto seleccionado para eliminar');
+    return;
+  }
+  
+  console.log(`Confirmando eliminación del producto con ID: ${currentProductToDelete}`);
+  
+  // Obtener los muebles del localStorage
+  let muebles = JSON.parse(localStorage.getItem(MUEBLES_KEY)) || [];
+  
+  // Encontrar el producto antes de eliminarlo (para el log)
+  const productoAEliminar = muebles.find(mueble => mueble.id === currentProductToDelete);
+  
+  // Filtrar el array para eliminar el producto con el ID seleccionado
+  muebles = muebles.filter(mueble => mueble.id !== currentProductToDelete);
+  
+  // Guardar el array actualizado en localStorage
+  localStorage.setItem(MUEBLES_KEY, JSON.stringify(muebles));
+  
+  // Mostrar mensaje de confirmación al usuario
+  if (productoAEliminar) {
+    alert(`Producto "${productoAEliminar.nombre}" eliminado correctamente del stock.`);
+    console.log(`Producto eliminado:`, productoAEliminar);
+  }
+  
+  // Actualizar la visualización del inventario
+  mostrarMueblesInventario();
+  
+  // Cerrar la modal
+  closeDeleteModal();
+}
+
+/**** ELIMINAR PRODUCTOS DEL INVENTARIO / STOCK - MODIFICADO */
+// Función para manejar los eventos de los botones "Eliminar Producto"
 export function eliminarProductosStock() {
   const botonesEliminar = document.querySelectorAll('.btn-delete')
   
@@ -164,24 +273,23 @@ export function eliminarProductosStock() {
   })
 }
 
-// Función manejadora para el evento click del botón eliminar
+// Función manejadora para el evento click del botón eliminar - MODIFICADA
 export function handleDeleteClick() {
-  // Obtener la clave del id desde el atributo del botón
+  // Obtener el ID del producto desde el atributo del botón
   const muebleId = parseInt(this.getAttribute('data-id'))
-  console.log(`Producto con ID ${muebleId} eliminado del inventario / stock`)
+  console.log(`Solicitud de eliminación para producto con ID ${muebleId}`)
   
-  // Obtener los muebles actuales DIRECTAMENTE DEL LOCALSTORAGE (dentro del click)
-  let muebles = JSON.parse(localStorage.getItem(MUEBLES_KEY))
+  // Obtener los muebles del localStorage para encontrar el nombre del producto
+  const muebles = JSON.parse(localStorage.getItem(MUEBLES_KEY)) || []
+  const producto = muebles.find(mueble => mueble.id === muebleId)
   
-  // Filtrar para eliminar el producto seleccionado
-  muebles = muebles.filter(mueble => mueble.id !== muebleId)
-  console.log("El nuevo inventario es:", muebles)
-  
-  // Guardar los muebles actualizados en localStorage
-  localStorage.setItem(MUEBLES_KEY, JSON.stringify(muebles))
-  
-  // Actualizar la visualización de la lista del Inventario / Stock
-  mostrarMueblesInventario()
+  if (producto) {
+    // Abrir la modal de confirmación con los datos del producto
+    openDeleteModal(muebleId, producto.nombre)
+  } else {
+    console.error(`No se encontró producto con ID ${muebleId}`)
+    alert('Error: No se encontró el producto a eliminar')
+  }
 }
 
 export function resetFormulario() {
@@ -228,7 +336,7 @@ export function closeModal() {
   }
 }
 
-/**** EDITAR PRODUCTOS STOCK */
+/**** EDITAR PRODUCTOS STOCK ****/
 // Función para manejar la edición de productos
 export function editarProductosStock() {
   // Seleccionar todos los botones de editar
