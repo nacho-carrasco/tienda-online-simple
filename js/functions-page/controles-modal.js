@@ -8,7 +8,7 @@ import { muebles, cargarMueblesStock, mostrarMuebles } from "../app.js"
 // Declaración de variables para elementos DOM
 export let openModalBtn;
 export let overlay;
-export let overlayDelete; // Nueva variable para la modal de eliminación
+export let overlayDelete;
 export let closeModalBtn;
 export let cancelModalBtn;
 export let formulario;
@@ -248,10 +248,10 @@ export function confirmDelete() {
   localStorage.setItem(MUEBLES_KEY, JSON.stringify(muebles));
   
   // Mostrar mensaje de confirmación al usuario
-  if (productoAEliminar) {
-    alert(`Producto "${productoAEliminar.nombre}" eliminado correctamente del stock.`);
-    console.log(`Producto eliminado:`, productoAEliminar);
-  }
+  // if (productoAEliminar) {
+  //   alert(`Producto "${productoAEliminar.nombre}" eliminado correctamente del stock.`);
+  //   console.log(`Producto eliminado:`, productoAEliminar);
+  // }
   
   // Actualizar la visualización del inventario
   mostrarMueblesInventario();
@@ -432,12 +432,20 @@ export function configurarFormularioParaEdicion(muebleId) {
         alert('Por favor, ingresa un nombre de producto');
         return;
       }
+      if (nombre.length>100) {
+        alert('El nombre de producto no puede tener más de 100 caracteres');
+        return;
+      }
       if (!dimensiones) {
         alert('Por favor, ingresa las dimensiones');
         return;
       }
       if (isNaN(precio) || precio <= 0) {
-        alert('Por favor, ingresa un precio válido');
+        alert('Por favor, el precio debe ser un número y mayor que 0');
+        return;
+      }
+      if (precio > 1000000) {
+        alert('Por favor, ingresa un precio menor de 1.000.000€');
         return;
       }
       
@@ -455,7 +463,7 @@ export function configurarFormularioParaEdicion(muebleId) {
         
         // Actualizar el objeto del mueble con los nuevos valores, manteniendo el mismo ID
         muebles[indice] = {
-          id: muebleId, // Importante: mantener el mismo ID
+          id: muebleId,
           img: imagenFinal,
           nombre: nombre,
           dimensiones: dimensiones,
@@ -503,10 +511,10 @@ export function configurarFormularioParaAgregar() {
       const precio = parseFloat(document.getElementById('precio').value);
       
       // Validación mejorada - comprobamos cada campo individualmente
-      if (!img) {
-        alert('Por favor, ingresa un nombre de imagen');
-        return;
-      }
+      // if (!img) {
+      //   img = "default-img.jpg"
+      //   return;
+      // }
       if (!nombre) {
         alert('Por favor, ingresa un nombre de producto');
         return;
@@ -516,7 +524,11 @@ export function configurarFormularioParaAgregar() {
         return;
       }
       if (isNaN(precio) || precio <= 0) {
-        alert('Por favor, ingresa un precio válido');
+        alert('Por favor, el precio debe ser un número y mayor que 0');
+        return;
+      }
+      if (precio > 1000000) {
+        alert('Por favor, ingresa un precio menor de 1.000.000€');
         return;
       }
       

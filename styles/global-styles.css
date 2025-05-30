@@ -787,7 +787,7 @@ PÁGINA STOCK
     justify-content: center;
     align-items: center;
     z-index: 1000; 
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Estilos para la ventana modal */
